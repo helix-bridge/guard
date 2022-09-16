@@ -2,6 +2,7 @@
     "server": "https://apollo-test.helixbridge.app/graphql",
     "fromChain": "pangoro-dvm",
     "toChain": "goerli",
+    "toChainId": 5,
     "bridge": "helix-sub2ethv2",
     "guard_contract": "0xCaaE893257366c866a82BAbDe85320b9123B829f",
     "private_key": "0x..."

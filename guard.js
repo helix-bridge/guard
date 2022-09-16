@@ -74,7 +74,7 @@ const loop = async function() {
                         record.recvTokenAddress,
                         record.recipient,
                         record.recvAmount,
-                        5,
+                        config.toChainId,
                         config.guard_contract);
                     const signature = ethUtil.ecsign(Buffer.from(dataHash.substr(2), 'hex'), Buffer.from(key.substr(2), 'hex'));
                     await addSignature(config.server, record.id, ethUtil.toRpcSig(signature.v, signature.r, signature.s));
