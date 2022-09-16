@@ -5,5 +5,5 @@
     "toChainId": 5,
     "bridge": "helix-sub2ethv2",
     "guard_contract": "0xCaaE893257366c866a82BAbDe85320b9123B829f",
-    "private_key": "0x..."
+    "private_key": "8de8a8fa672043238e90c8a915e22fdf:830bebbb1df071c5cbc5c64dce2983c83487d2854187fdadeebb4cc65304b60b5634d7cf367ecb20525a7eab1010055c577080fb1b4762d1bafffbb06d3ac71637e7"
 }

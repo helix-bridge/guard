@@ -1,6 +1,45 @@
 const Web3 = require('web3');
 const ethUtil = require('ethereumjs-util');
 var axios = require('axios');
+var crypto = require('crypto');
+var readline = require('readline');
+
+function encrypt(str,secret){
+    iv = crypto.randomBytes(16);
+	var cipher = crypto.createCipheriv('aes-256-ctr',Buffer.from(secret, 'hex'), iv);
+    let encrypted = cipher.update(str);
+    encrypted = Buffer.concat([encrypted, cipher.final()]);
+    return iv.toString('hex') + ':' + encrypted.toString('hex');
+}
+
+function decrypt(str,secret){
+    let encrySplit = str.split(':');
+    let iv = Buffer.from(encrySplit.shift(), 'hex');
+    let encrypted = Buffer.from(encrySplit.join(':'), 'hex');
+	var decipher = crypto.createDecipheriv('aes-256-ctr',Buffer.from(secret, 'hex'), iv);
+    let decrypted = decipher.update(encrypted);
+    decrypted = Buffer.concat([decrypted, decipher.final()]);
+    return decrypted.toString();
+}
+
+function acceptPasswd() {
+    var rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+    rl.stdoutMuted = true;
+    return rl;
+}
+
+function hidePasswd(rl) {
+    rl._writeToOutput = function _writeToOutput(stringToWrite) {
+        if (rl.stdoutMuted)
+            rl.output.write("*");
+        else
+            rl.output.write(stringToWrite);
+    };
+}
+
 function wait(ms) {
     return new Promise(resolve => setTimeout(() => resolve(), ms));
 };
@@ -48,12 +87,14 @@ function generateDataHash(web3, transferId, timestamp, token, recipient, amount,
     return web3.utils.keccak256('0x1901' + domainSeparator.substring(2) + structHash.substring(2));
 }
 
-const loop = async function() {
+const loop = async function(passwd) {
     var config = require('./config.json');
     var web3 = new Web3(Web3.givenProvider);
     const key = config.private_key;
-    web3.eth.accounts.wallet.add(key);
+    const privateKey = decrypt(key, passwd);
+    web3.eth.accounts.wallet.add(privateKey);
 
+    console.log("start to listen guard");
     while (true) {
         try {
             const records = await queryRecordNeedSignature(
@@ -76,7 +117,7 @@ const loop = async function() {
                         record.recvAmount,
                         config.toChainId,
                         config.guard_contract);
-                    const signature = ethUtil.ecsign(Buffer.from(dataHash.substr(2), 'hex'), Buffer.from(key.substr(2), 'hex'));
+                    const signature = ethUtil.ecsign(Buffer.from(dataHash.substr(2), 'hex'), Buffer.from(privateKey.substr(2), 'hex'));
                     await addSignature(config.server, record.id, ethUtil.toRpcSig(signature.v, signature.r, signature.s));
                 }
             }
@@ -87,5 +128,18 @@ const loop = async function() {
     }
 }
 
-loop();
+if (process.argv.length == 4) {
+    const privateKey = process.argv[2];
+    const password = process.argv[3];
+    const passwd = password.padStart(64, '0');
+    console.log(encrypt(privateKey, passwd));
+} else {
+    var rl = acceptPasswd();
+    rl.question('Password: ', function(password) {
+        rl.close();
+        const passwd = password.padStart(64, '0');
+        loop(passwd);
+    });
+    hidePasswd(rl);
+}
 
