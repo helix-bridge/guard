@@ -13,7 +13,7 @@
 	},
 	"license": "MIT",
 	"engines": {
-		"node": "14.18.x"
+		"node": "14.17.x"
 	},
 	"devDependencies": {
 		"readline-sync": "1.4.10",
