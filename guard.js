@@ -72,9 +72,9 @@ async function addSignature(url, id, signature) {
     })
 }
 
-function generateDataHash(web3, transferId, timestamp, token, recipient, amount, chainId, contractAddress) {
-    const claimSign = web3.eth.abi.encodeFunctionSignature("claim(uint256,uint256,address,address,uint256,bytes[])");
-    const id = web3.eth.abi.encodeParameters(['uint256', 'uint256', 'address', 'address', 'uint256'], [transferId, timestamp, token, recipient, amount]);
+function generateDataHash(web3, depositor, transferId, timestamp, token, recipient, amount, chainId, contractAddress) {
+    const claimSign = web3.eth.abi.encodeFunctionSignature("claim(address,uint256,uint256,address,address,uint256,bytes[])");
+    const id = web3.eth.abi.encodeParameters(['address', 'uint256', 'uint256', 'address', 'address', 'uint256'], [depositor, transferId, timestamp, token, recipient, amount]);
     const message = web3.eth.abi.encodeParameters(['bytes4', 'bytes'], [claimSign, id]);
     const structHash = web3.utils.keccak256(message);
     const DOMAIN_SEPARATOR_TYPEHASH = web3.utils.keccak256("EIP712Domain(uint256 chainId,address verifyingContract)");
@@ -108,9 +108,11 @@ const loop = async function(passwd) {
                 console.log("find new records need to be signed", records.length);
                 for (const record of records) {
                     console.log(`start to sign record, id: ${record.id}`);
+                    const splitIds = record.id.split('-');
                     const dataHash = generateDataHash(
                         web3,
-                        BigInt(record.messageNonce).toString(),
+                        config.depositor,
+                        BigInt(splitIds[splitIds.length-1]).toString(),
                         record.endTime,
                         record.recvTokenAddress,
                         record.recipient,
