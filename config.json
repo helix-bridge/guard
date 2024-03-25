@@ -1,10 +1,22 @@
 {
-    "server": "http://localhost:4002/graphql",
-    "fromChain": "crab-dvm",
-    "toChain": "sepolia",
-    "toChainId": 11155111,
-    "bridge": "xtoken-crab-dvm",
-    "depositor": "0xf22D0bb66b39745Ae6e3fEa3E5859d7f0b367Fd1",
-    "guard_contract": "0xcc357d5A8E5dBD52bC508E0FE491137d912F6bc8",
-    "private_key": "72c8ec329be2180e565f85e4c0b85cb9:efc5fd974af8b83849d2d2e02519046d0703b9e45228425e7c6bdf5e6bf7dc770c398433ed48029097f598c9849e31aea11dd9e357ca27ffe0006906e096eb406e60"
+   "server": "http://localhost:4002/graphql",
+   "private_key": "...",
+   "bridges": [
+       {
+           "fromChain": "sepolia",
+           "toChain": "pangolin-dvm",
+           "toChainId": 43,
+           "bridge": "xtoken-sepolia",
+           "depositor": "0x7E3105E3A13D55d824b6322cbD2049f098a097F6",
+           "guard_contract": "0x4ca75992d2750bec270731a72dfdede6b9e71cc7"
+       },
+       {
+           "fromChain": "pangolin-dvm",
+           "toChain": "sepolia",
+           "toChainId": 11155111,
+           "bridge": "xtoken-pangolin-dvm",
+           "depositor": "0x3B36c2Db4CC5E92Af015Eb572A1C95C95599a8bF",
+           "guard_contract": "0x4ca75992d2750bec270731a72dfdede6b9e71cc7"
+       }
+   ]
 }
