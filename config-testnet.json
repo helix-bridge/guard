@@ -1,9 +1,0 @@
-{
-    "server": "http://localhost:4002/graphql",
-    "fromChain": "pangolin-dvm",
-    "toChain": "goerli",
-    "toChainId": 5,
-    "bridge": "helix-sub2ethv2(lock)",
-    "guard_contract": "0x8C986EC362A38cA4A6a3fd4188C5318c689A187d",
-    "private_key": "8de8a8fa672043238e90c8a915e22fdf:830bebbb1df071c5cbc5c64dce2983c83487d2854187fdadeebb4cc65304b60b5634d7cf367ecb20525a7eab1010055c577080fb1b4762d1bafffbb06d3ac71637e7"
-}

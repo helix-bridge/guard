@@ -1,22 +1,22 @@
 {
-   "server": "http://localhost:4002/graphql",
-   "private_key": "...",
-   "bridges": [
+    "server": "https://apollo-xtoken.helixbox.ai/graphql",
+    "private_key": "...",
+    "bridges": [
        {
-           "fromChain": "sepolia",
-           "toChain": "pangolin-dvm",
-           "toChainId": 43,
-           "bridge": "xtoken-sepolia",
-           "depositor": "0x7E3105E3A13D55d824b6322cbD2049f098a097F6",
-           "guard_contract": "0x4ca75992d2750bec270731a72dfdede6b9e71cc7"
+           "fromChain": "darwinia-dvm",
+           "toChain": "ethereum",
+           "toChainId": 1,
+           "bridge": "xtoken-darwinia-ethereum",
+           "depositor": "0xDc0C760c0fB4672D06088515F6446a71Df0c64C1",
+           "guard_contract": "0x4CA75992d2750BEC270731A72DfDedE6b9E71cC7"
        },
        {
-           "fromChain": "pangolin-dvm",
-           "toChain": "sepolia",
-           "toChainId": 11155111,
-           "bridge": "xtoken-pangolin-dvm",
-           "depositor": "0x3B36c2Db4CC5E92Af015Eb572A1C95C95599a8bF",
-           "guard_contract": "0x4ca75992d2750bec270731a72dfdede6b9e71cc7"
+           "fromChain": "ethereum",
+           "toChain": "darwinia-dvm",
+           "toChainId": 46,
+           "bridge": "xtoken-darwinia-ethereum",
+           "depositor": "0x2B496f19A420C02490dB859fefeCCD71eDc2c046",
+           "guard_contract": "0x4CA75992d2750BEC270731A72DfDedE6b9E71cC7"
        }
-   ]
+    ]
 }
